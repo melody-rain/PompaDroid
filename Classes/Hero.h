@@ -9,4 +9,5 @@ public:
 
 	CREATE_FUNC(Hero);
 	bool init();	
+	void knockout();
 };

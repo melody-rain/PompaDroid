@@ -12,11 +12,15 @@ public:
 	void idle();
 	void attack();
 	void hurtWithDamage(float damage);
-	void knockout();
+	virtual void knockout();
 	void walkWithDirection(cocos2d::Point direction);
 
 	//scheduled methods
 	void update(float dt);
+
+	BoundingBox createBoundingBoxWithOrigin(cocos2d::Point origin, cocos2d::Size size);
+	void transformBoxes();
+	void setPosition(cocos2d::CCPoint position);
 
 	//actions
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _idleAction, IdleAction);
@@ -40,4 +44,7 @@ public:
 	//measurements
 	CC_SYNTHESIZE(float, _centerToSides, CenterToSides);
 	CC_SYNTHESIZE(float, _centerToBottom, CenterToBottom);
+
+	CC_SYNTHESIZE(BoundingBox, _hitBox, Hitbox);
+	CC_SYNTHESIZE(BoundingBox, _attackBox, AttackBox);
 };
