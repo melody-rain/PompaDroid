@@ -2,7 +2,7 @@
 #include "cocos2d.h"
 
 // 1 - convenience measurements
-#define SCREEN Director::sharedDirector()->getWinSize()
+#define SCREEN Director::getInstance()->getWinSize()
 #define CENTER Vec2(SCREEN.width / 2, SCREEN.height / 2)
 #define CURTIME GetCurTime()
 

@@ -33,7 +33,7 @@ bool SimpleDPad::initWithFile(__String *filename, float radius)
         CC_BREAK_IF(!Sprite::initWithFile(filename->getCString()));
         
         _radius = radius;
-        _direction = CCPointZero;
+        _direction = Vec2::ZERO;
         _isHeld = false;
         this->scheduleUpdate();
 
@@ -47,6 +47,9 @@ void SimpleDPad::onEnterTransitionDidFinish()
 {
     auto touchByOneListener = EventListenerTouchOneByOne::create();
     touchByOneListener->onTouchBegan = CC_CALLBACK_2(SimpleDPad::onTouchBegan, this);
+    touchByOneListener->onTouchMoved = CC_CALLBACK_2(SimpleDPad::onTouchMoved, this);
+    touchByOneListener->onTouchEnded = CC_CALLBACK_2(SimpleDPad::onTouchEnded, this);
+    touchByOneListener->setSwallowTouches(true);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchByOneListener, this);
 }
 
@@ -67,7 +70,7 @@ bool SimpleDPad::onTouchBegan(Touch *pTouch, Event *unused_event)
 {
     Point location = pTouch->getLocation();
 
-    float distanceSQ = ccpDistanceSQ(location, this->getPosition());
+    float distanceSQ = location.distanceSquared(this->getPosition());
     if (distanceSQ <= _radius * _radius)
     {
         this->updateDirectionForTouchLocation(location);
@@ -85,55 +88,55 @@ void SimpleDPad::onTouchMoved(Touch* pTouch, Event *unused_event)
 
 void SimpleDPad::onTouchEnded(Touch* pTouch, Event *unused_event)
 {
-    _direction = CCPointZero;
+    _direction = Vec2::ZERO;
     _isHeld = false;
     _delegate->simpleDPadTouchEnded(this);
 }
 
 void SimpleDPad::updateDirectionForTouchLocation(Point location)
 {
-    float radians = ccpToAngle(ccpSub(location, this->getPosition()));
+    float radians = (location - this->getPosition()).getAngle();
     float degrees = -1 * CC_RADIANS_TO_DEGREES(radians);
 
     if (degrees <= 22.5 && degrees >= -22.5) 
     {
         //right
-        _direction = ccp(1.0, 0.0);
+        _direction = Vec2(1.0, 0.0);
     }
     else if (degrees > 22.5 && degrees < 67.5)
     {
         //bottomright
-        _direction = ccp(1.0, -1.0);
+        _direction = Vec2(1.0, -1.0);
     }
     else if (degrees >= 67.5 && degrees <= 112.5)
     {
         //bottom
-        _direction = ccp(0.0, -1.0);
+        _direction = Vec2(0.0, -1.0);
     }
     else if (degrees > 112.5 && degrees < 157.5)
     {
         //bottomleft
-        _direction = ccp(-1.0, -1.0);
+        _direction = Vec2(-1.0, -1.0);
     }
     else if (degrees >= 157.5 || degrees <= -157.5)
     {
         //left
-        _direction = ccp(-1.0, 0.0);
+        _direction = Vec2(-1.0, 0.0);
     }
     else if (degrees < -22.5 && degrees > -67.5)
     {
         //topright
-        _direction = ccp(1.0, 1.0);
+        _direction = Vec2(1.0, 1.0);
     }
     else if (degrees <= -67.5 && degrees >= -112.5)
     {
         //top
-        _direction = ccp(0.0, 1.0);
+        _direction = Vec2(0.0, 1.0);
     }
     else if (degrees < -112.5 && degrees > -157.5)
     {
         //topleft
-        _direction = ccp(-1.0, 1.0);
+        _direction = Vec2(-1.0, 1.0);
     }
     _delegate->didChangeDirectionTo(this, _direction);
 }
