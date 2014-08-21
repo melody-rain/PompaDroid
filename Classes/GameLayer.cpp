@@ -24,16 +24,16 @@ bool GameLayer::init()
         CC_BREAK_IF(!Layer::init());
 
 		// Load audio
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("latin_industries.aifc");
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("latin_industries.aifc");
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("pd_hit0.wav");
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("pd_hit1.wav");
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("pd_herodeath.wav");
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("pd_botdeath.wav");
+		CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("latin_industries.aifc");
+        CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("latin_industries.aifc");
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("pd_hit0.wav");
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("pd_hit1.wav");
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("pd_herodeath.wav");
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("pd_botdeath.wav");
 
 		this->setTouchEnabled(true);
 
-        SpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("pd_sprites.plist");
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile("pd_sprites.plist");
         _actors = SpriteBatchNode::create("pd_sprites.pvr.ccz");
         _actors->getTexture()->setAliasTexParameters();
         this->addChild(_actors, -5);
@@ -71,7 +71,7 @@ void GameLayer::initHero()
 {
     _hero = Hero::create();
     _actors->addChild(_hero);
-    _hero->setPosition(ccp(_hero->getCenterToSides(), 80));
+    _hero->setPosition(Vec2(_hero->getCenterToSides(), 80));
     _hero->setDesiredPosition(_hero->getPosition());
     _hero->idle();
 }
@@ -82,7 +82,7 @@ void GameLayer::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused
 
 	if (_hero->getActionState() == kActionStateAttack)
 	{
-		CCObject *pObject = NULL;
+		Ref *pObject = NULL;
 		CCARRAY_FOREACH(_robots, pObject)
 		{
 			Robot *robot = (Robot*)pObject;
@@ -133,9 +133,9 @@ void GameLayer::updatePositions()
 		MAX(_hero->getCenterToSides(), _hero->getDesiredPosition().x));
 	float posY = MIN(3 * _tileMap->getTileSize().height + _hero->getCenterToBottom(),
 		MAX(_hero->getCenterToBottom(), _hero->getDesiredPosition().y));
-	_hero->setPosition(ccp(posX, posY));
+    _hero->setPosition(Vec2(posX, posY));
 
-	CCObject *pObject = NULL;
+	Ref *pObject = NULL;
 	CCARRAY_FOREACH(_robots, pObject)
 	{
 		Robot *robot = (Robot*)pObject;
@@ -143,29 +143,29 @@ void GameLayer::updatePositions()
 			MAX(robot->getCenterToSides(), robot->getDesiredPosition().x));
 		posY = MIN(3 * _tileMap->getTileSize().height + robot->getCenterToBottom(),
 			MAX(robot->getCenterToBottom(), robot->getDesiredPosition().y));
-		robot->setPosition(ccp(posX, posY));
+        robot->setPosition(Vec2(posX, posY));
 	}
 }
 
-void GameLayer::setViewpointCenter(CCPoint position)
+void GameLayer::setViewpointCenter(Point position)
 {
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	Size winSize = Director::sharedDirector()->getWinSize();
 
 	int x = MAX(position.x, winSize.width / 2);
 	int y = MAX(position.y, winSize.height / 2);
 	x = MIN(x, (_tileMap->getMapSize().width * _tileMap->getTileSize().width) - winSize.width / 2);
 	y = MIN(y, (_tileMap->getMapSize().height * _tileMap->getTileSize().height) - winSize.height / 2);
-	CCPoint actualPosition = ccp(x, y);
+    Point actualPosition = Vec2(x, y);
 
-	CCPoint centerOfView = ccp(winSize.width / 2, winSize.height / 2);
-	CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
+    Point centerOfView = Vec2(winSize.width / 2, winSize.height / 2);
+    Point viewPoint = ccpSub(centerOfView, actualPosition);
 	this->setPosition(viewPoint);
 }
 
 void GameLayer::initRobots()
 {
 	int robotCount = 50;
-	this->setRobots(CCArray::createWithCapacity(robotCount));
+	this->setRobots(__Array::createWithCapacity(robotCount));
 
 	for (int i = 0; i < robotCount; i++)
 	{
@@ -178,7 +178,7 @@ void GameLayer::initRobots()
 		int minY = robot->getCenterToBottom();
 		int maxY = 3 * _tileMap->getTileSize().height + robot->getCenterToBottom();
 		robot->setScaleX(-1);
-		robot->setPosition(ccp(random_range(minX, maxX), random_range(minY, maxY)));
+        robot->setPosition(Vec2(random_range(minX, maxX), random_range(minY, maxY)));
 		robot->setDesiredPosition(robot->getPosition());
 		robot->idle();
 	}
@@ -186,7 +186,7 @@ void GameLayer::initRobots()
 
 void GameLayer::reorderActors()
 {
-	CCObject *pObject = NULL;
+	Ref *pObject = NULL;
     for (const auto &node : _actors->getChildren())
     {
         ActionSprite *sprite = (ActionSprite*)node;
@@ -199,7 +199,7 @@ void GameLayer::updateRobots(float dt)
 	int alive = 0;
 	float distanceSQ;
 	int randomChoice = 0;
-	CCObject *pObject = NULL;
+	Ref *pObject = NULL;
 	CCARRAY_FOREACH(_robots, pObject)
 	{
 		Robot *robot = (Robot*)pObject;
@@ -263,7 +263,7 @@ void GameLayer::updateRobots(float dt)
 					randomChoice = random_range(0, 2);
 					if (randomChoice == 0)
 					{
-						CCPoint moveDirection = ccpNormalize(ccpSub(_hero->getPosition(), robot->getPosition()));
+                        Point moveDirection = ccpNormalize(ccpSub(_hero->getPosition(), robot->getPosition()));
 						robot->walkWithDirection(moveDirection);
 					} 
 					else
@@ -285,14 +285,14 @@ void GameLayer::updateRobots(float dt)
 void GameLayer::endGame()
 {
 	CCLabelTTF *restartLabel = CCLabelTTF::create("RESTART", "Arial", 30);
-	CCMenuItemLabel *restartItem = CCMenuItemLabel::create(restartLabel, this, menu_selector(GameLayer::restartGame));
-	CCMenu *menu = CCMenu::create(restartItem, NULL);
+	MenuItemLabel *restartItem = MenuItemLabel::create(restartLabel, this, menu_selector(GameLayer::restartGame));
+	Menu *menu = Menu::create(restartItem, NULL);
 	menu->setPosition(CENTER);
 	menu->setTag(5);
 	_hud->addChild(menu, 5);
 }
 
-void GameLayer::restartGame(CCObject* pSender)
+void GameLayer::restartGame(Ref* pSender)
 {
-	CCDirector::sharedDirector()->replaceScene(GameScene::create());
+	Director::getInstance()->replaceScene(GameScene::create());
 }

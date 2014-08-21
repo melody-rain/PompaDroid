@@ -16,6 +16,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
 
 //     GLView* glView = Director::getInstance()->getOpenGLView();
-//     glView->setFrameSize(480, 320);
+//     glView->setFrameSize(480, 320);
+
     return Application::getInstance()->run();
 }

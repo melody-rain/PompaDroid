@@ -26,8 +26,8 @@ typedef enum _ActionState {
 
 // 4 - structures
 typedef struct _BoundingBox {
-	cocos2d::CCRect actual;
-	cocos2d::CCRect original;
+	cocos2d::Rect actual;
+	cocos2d::Rect original;
 } BoundingBox;
 
 inline float GetCurTime(){

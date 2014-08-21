@@ -29,7 +29,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     if (!glview)
     {
-        glview = GLView::create("Cat Battle");
+        glview = GLView::create("Prompa Droid");
+        glview->setFrameSize(480, 320);
         pDirector->setOpenGLView(glview);
     }
 

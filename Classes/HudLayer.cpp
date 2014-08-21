@@ -18,7 +18,7 @@ bool HudLayer::init()
         CC_BREAK_IF(!Layer::init());
 
         _dPad = SimpleDPad::dPadWithFile(__String::create("pd_dpad.png"), 64);
-        _dPad->setPosition(ccp(64.0, 64.0));
+        _dPad->setPosition(Vec2(64.0, 64.0));
         _dPad->setOpacity(100);
         this->addChild(_dPad);
 

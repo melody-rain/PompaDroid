@@ -23,7 +23,7 @@ public:
 
     void update(float dt);
     void updatePositions();
-    void setViewpointCenter(cocos2d::CCPoint position);
+    void setViewpointCenter(cocos2d::Point position);
     void reorderActors();
     void updateRobots(float dt);
 
@@ -34,5 +34,5 @@ public:
     cocos2d::SpriteBatchNode *_actors;
     Hero *_hero;
     CC_SYNTHESIZE(HudLayer*, _hud, Hud);
-    CC_SYNTHESIZE_RETAIN(cocos2d::CCArray*, _robots, Robots);
+    CC_SYNTHESIZE_RETAIN(cocos2d::__Array*, _robots, Robots);
 };

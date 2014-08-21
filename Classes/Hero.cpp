@@ -75,8 +75,8 @@ bool Hero::init()
         this->setWalkSpeed(80.0);
 
 		this->setHitbox(this->createBoundingBoxWithOrigin(ccp(-this->getCenterToSides(), -this->getCenterToBottom()),
-			CCSizeMake(this->getCenterToSides() * 2, this->getCenterToBottom() * 2)));
-		this->setAttackBox(this->createBoundingBoxWithOrigin(ccp(this->getCenterToSides(), -10), CCSizeMake(20, 20)));
+            Size(this->getCenterToSides() * 2, this->getCenterToBottom() * 2)));
+        this->setAttackBox(this->createBoundingBoxWithOrigin(ccp(this->getCenterToSides(), -10), Size(20, 20)));
 
 		bRet = true;
     } while (0);
@@ -87,5 +87,5 @@ bool Hero::init()
 void Hero::knockout()
 {
 	ActionSprite::knockout();
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("pd_herodeath.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pd_herodeath.wav");
 }

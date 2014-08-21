@@ -20,7 +20,7 @@ public:
 
 	BoundingBox createBoundingBoxWithOrigin(cocos2d::Point origin, cocos2d::Size size);
 	void transformBoxes();
-	void setPosition(cocos2d::CCPoint position);
+	void setPosition(cocos2d::Point position);
 
 	//actions
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _idleAction, IdleAction);
