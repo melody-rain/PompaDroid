@@ -3,7 +3,7 @@
 #include "Hero.h"
 #include "SimpleDPad.h"
 #include "HudLayer.h"
-
+#include "Control.h"
 class GameLayer : public cocos2d::Layer, public SimpleDPadDelegate
 {
 public:
@@ -35,7 +35,7 @@ public:
     Hero *_hero;
     CC_SYNTHESIZE(HudLayer*, _hud, Hud);
     CC_SYNTHESIZE_RETAIN(cocos2d::__Array*, _robots, Robots);
-
+    CC_SYNTHESIZE(Control*, _controller, DController);
     void onEnter();
     void onExit();
     void onExitTransitionDidStart();

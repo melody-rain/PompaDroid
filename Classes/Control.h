@@ -13,4 +13,5 @@ public:
     CREATE_FUNC(Control);
     CC_SYNTHESIZE(MenuItemImage*, pauseMeneItemImage, pauseMeneItemImage);
     CC_SYNTHESIZE(SpriteFrameCache*, cache, cache);
+    void onEnterTransitionDidFinish();
 };
