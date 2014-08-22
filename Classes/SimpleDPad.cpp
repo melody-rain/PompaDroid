@@ -45,6 +45,8 @@ bool SimpleDPad::initWithFile(__String *filename, float radius)
 
 void SimpleDPad::onEnterTransitionDidFinish()
 {
+    log("SimpleDPad::onEnterTransitionDidFinish()");
+
     auto touchByOneListener = EventListenerTouchOneByOne::create();
     touchByOneListener->onTouchBegan = CC_CALLBACK_2(SimpleDPad::onTouchBegan, this);
     touchByOneListener->onTouchMoved = CC_CALLBACK_2(SimpleDPad::onTouchMoved, this);
@@ -55,6 +57,7 @@ void SimpleDPad::onEnterTransitionDidFinish()
 
 void SimpleDPad::onExit()
 {
+    log("SimpleDPad::onExit()");
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
 }
 
@@ -139,4 +142,16 @@ void SimpleDPad::updateDirectionForTouchLocation(Point location)
         _direction = Vec2(-1.0, 1.0);
     }
     _delegate->didChangeDirectionTo(this, _direction);
+}
+
+void SimpleDPad::onEnter()
+{
+    cocos2d::Node::onEnter();
+    log("SimpleDPad::onEnter()");
+}
+
+void SimpleDPad::onExitTransitionDidStart()
+{
+    cocos2d::Node::onExitTransitionDidStart();
+    log("SimpleDPad::onExitTransitionDidStart()");
 }

@@ -35,4 +35,8 @@ public:
     Hero *_hero;
     CC_SYNTHESIZE(HudLayer*, _hud, Hud);
     CC_SYNTHESIZE_RETAIN(cocos2d::__Array*, _robots, Robots);
+
+    void onEnter();
+    void onExit();
+    void onExitTransitionDidStart();
 };

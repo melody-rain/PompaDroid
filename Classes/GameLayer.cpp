@@ -297,8 +297,26 @@ void GameLayer::restartGame(Ref* pSender)
 
 void GameLayer::onEnterTransitionDidFinish()
 {
+    log("GameLayter::onEnterTransitionDidFinish()");
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesBegan = CC_CALLBACK_2(GameLayer::onTouchesBegan, this);
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void GameLayer::onEnter()
+{
+    cocos2d::Layer::onEnter();
+    log("GameLayer::onEnter()");
+}
+
+void GameLayer::onExit()
+{
+    cocos2d::Layer::onExit();
+    log("GameLayer::onExit()");
+}
+
+void GameLayer::onExitTransitionDidStart()
+{
+    log("GameLayer::onExitTransitionDidStart()");
 }

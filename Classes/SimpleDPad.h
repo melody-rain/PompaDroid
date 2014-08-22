@@ -33,6 +33,9 @@ public:
     CC_SYNTHESIZE(SimpleDPadDelegate*, _delegate, Delegate);
     CC_SYNTHESIZE(bool, _isHeld, IsHeld);
 
+    void onEnter();
+    void onExitTransitionDidStart();
+
 protected:
     float _radius;
     cocos2d::Point _direction;
