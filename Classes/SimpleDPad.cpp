@@ -71,6 +71,11 @@ void SimpleDPad::update(float dt)
 
 bool SimpleDPad::onTouchBegan(Touch *pTouch, Event *unused_event)
 {
+    if (Director::getInstance()->isPaused())
+    {
+        return false;
+    }
+
     Point location = pTouch->getLocation();
 
     float distanceSQ = location.distanceSquared(this->getPosition());

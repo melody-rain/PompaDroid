@@ -76,25 +76,28 @@ void GameLayer::initHero()
 
 void GameLayer::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
 {
-    _hero->attack();
-
-    if (_hero->getActionState() == kActionStateAttack)
+    if (!Director::getInstance()->isPaused())
     {
-        Ref *pObject = NULL;
-        CCARRAY_FOREACH(_robots, pObject)
+        _hero->attack();
+
+        if (_hero->getActionState() == kActionStateAttack)
         {
-            Robot *robot = (Robot*)pObject;
-            if (robot->getActionState() != kActionStateKnockedOut)
+            Ref *pObject = NULL;
+            CCARRAY_FOREACH(_robots, pObject)
             {
-                if (fabsf(_hero->getPosition().y - robot->getPosition().y) < 10)
+                Robot *robot = (Robot*)pObject;
+                if (robot->getActionState() != kActionStateKnockedOut)
                 {
-                    if (_hero->getAttackBox().actual.intersectsRect(robot->getHitbox().actual))
+                    if (fabsf(_hero->getPosition().y - robot->getPosition().y) < 10)
                     {
-                        robot->hurtWithDamage(_hero->getDamage());
+                        if (_hero->getAttackBox().actual.intersectsRect(robot->getHitbox().actual))
+                        {
+                            robot->hurtWithDamage(_hero->getDamage());
+                        }
                     }
                 }
             }
-        }		
+        }
     }
 }
 

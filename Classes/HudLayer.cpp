@@ -17,10 +17,14 @@ bool HudLayer::init()
     {
         CC_BREAK_IF(!Layer::init());
 
+        _controller = Control::create();
+        this->addChild(_controller);
+
         _dPad = SimpleDPad::dPadWithFile(__String::create("pd_dpad.png"), 64);
         _dPad->setPosition(Vec2(64.0, 64.0));
         _dPad->setOpacity(100);
         this->addChild(_dPad);
+
 
         bRet = true;
     } while (0);
