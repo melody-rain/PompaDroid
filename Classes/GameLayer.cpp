@@ -31,8 +31,6 @@ bool GameLayer::init()
         CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("pd_herodeath.wav");
         CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("pd_botdeath.wav");
 
-        this->setTouchEnabled(true);
-
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile("pd_sprites.plist");
         _actors = SpriteBatchNode::create("pd_sprites.pvr.ccz");
         _actors->getTexture()->setAliasTexParameters();
@@ -295,4 +293,12 @@ void GameLayer::endGame()
 void GameLayer::restartGame(Ref* pSender)
 {
     Director::getInstance()->replaceScene(GameScene::create());
+}
+
+void GameLayer::onEnterTransitionDidFinish()
+{
+    auto listener = EventListenerTouchAllAtOnce::create();
+    listener->onTouchesBegan = CC_CALLBACK_2(GameLayer::onTouchesBegan, this);
+
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }

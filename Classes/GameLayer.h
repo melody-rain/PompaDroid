@@ -29,7 +29,7 @@ public:
 
     void endGame();
     void restartGame(cocos2d::CCObject* pSender);
-
+    void onEnterTransitionDidFinish();
     cocos2d::TMXTiledMap *_tileMap;
     cocos2d::SpriteBatchNode *_actors;
     Hero *_hero;
