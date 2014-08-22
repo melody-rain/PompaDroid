@@ -115,3 +115,13 @@ void ActionSprite::setPosition(Point position)
     CCSprite::setPosition(position);
     this->transformBoxes();
 }
+
+void ActionSprite::updateHP()
+{
+
+}
+
+void ActionSprite::makeHPBar()
+{
+
+}

@@ -4,12 +4,14 @@
 class Robot : public ActionSprite
 {
 public:
-	Robot(void);
-	~Robot(void);
+    Robot(void);
+    ~Robot(void);
 
-	CREATE_FUNC(Robot);
-	bool init();
-	void knockout();
+    CREATE_FUNC(Robot);
+    bool init();
+    void knockout();
 
-	CC_SYNTHESIZE(float, _nextDecisionTime, NextDecisionTime);
+    CC_SYNTHESIZE(float, _nextDecisionTime, NextDecisionTime);
+
+    void updateHP();
 };

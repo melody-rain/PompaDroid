@@ -78,6 +78,8 @@ bool Hero::init()
             Size(this->getCenterToSides() * 2, this->getCenterToBottom() * 2)));
         this->setAttackBox(this->createBoundingBoxWithOrigin(Vec2(this->getCenterToSides(), -10), Size(20, 20)));
 
+        makeHPBar();
+
         bRet = true;
     } while (0);
 
@@ -88,4 +90,21 @@ void Hero::knockout()
 {
     ActionSprite::knockout();
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pd_herodeath.wav");
+}
+
+void Hero::updateHP()
+{
+
+}
+
+void Hero::makeHPBar()
+{
+    Sprite *heroHPBarSprite = Sprite::create("blood.png");
+    heroHPBar = ProgressTimer::create(heroHPBarSprite);
+    heroHPBar->setType(ProgressTimer::Type::BAR);
+    heroHPBar->setMidpoint(Vec2(0, 0.5));
+    heroHPBar->setBarChangeRate(Vec2(1, 0));
+    heroHPBar->setPercentage(getHitPoints());
+    heroHPBar->setAnchorPoint(Vec2(0, 0.5));
+    heroHPBar->setScaleX(0.3);
 }

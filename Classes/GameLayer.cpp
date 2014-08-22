@@ -72,6 +72,11 @@ void GameLayer::initHero()
     _hero->setPosition(Vec2(_hero->getCenterToSides(), 80));
     _hero->setDesiredPosition(_hero->getPosition());
     _hero->idle();
+    ProgressTimer *heroHPBar = _hero->getheroHPBar();
+    Point heroPos = _hero->getPosition();
+//     Size heroSize = _hero->getContentSize();
+    heroHPBar->setPosition(Vec2(heroPos.x - 20, heroPos.y + 50));
+    addChild(heroHPBar);
 }
 
 void GameLayer::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
@@ -122,6 +127,8 @@ void GameLayer::simpleDPadTouchEnded(SimpleDPad *simpleDPad)
 void GameLayer::update(float dt)
 {
     _hero->update(dt);
+    Point _heroPos = _hero->getPosition();
+    _hero->getheroHPBar()->setPosition(_heroPos.x - 20, _heroPos.y + 50);
     this->updateRobots(dt);
     this->updatePositions();
     this->reorderActors();
@@ -242,7 +249,7 @@ void GameLayer::updateRobots(float dt)
                                 if (_hero->getHitbox().actual.intersectsRect(robot->getAttackBox().actual))
                                 {
                                     _hero->hurtWithDamage(robot->getDamage());
-
+                                    _hero->updateHP();
                                     //end game checker here
                                     if (_hero->getActionState() == kActionStateKnockedOut && _hud->getChildByTag(5) == NULL)
                                     {
