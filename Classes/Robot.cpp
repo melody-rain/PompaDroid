@@ -95,7 +95,7 @@ void Robot::knockout()
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pd_botdeath.wav");
 }
 
-void Robot::updateHP()
+void Robot::updateHP(float hitPoints)
 {
 
 }

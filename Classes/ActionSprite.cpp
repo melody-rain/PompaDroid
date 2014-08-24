@@ -116,7 +116,7 @@ void ActionSprite::setPosition(Point position)
     this->transformBoxes();
 }
 
-void ActionSprite::updateHP()
+void ActionSprite::updateHP(float hitPoints)
 {
 
 }

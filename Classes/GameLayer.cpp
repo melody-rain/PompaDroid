@@ -76,6 +76,10 @@ void GameLayer::initHero()
     Point heroPos = _hero->getPosition();
 //     Size heroSize = _hero->getContentSize();
     heroHPBar->setPosition(Vec2(heroPos.x - 20, heroPos.y + 50));
+
+    ProgressTimer *heroHPBarBg = _hero->getheroHPBarBg();
+    heroHPBarBg->setPosition(Vec2(heroPos.x - 20, heroPos.y + 50));
+    addChild(heroHPBarBg);
     addChild(heroHPBar);
 }
 
@@ -129,6 +133,7 @@ void GameLayer::update(float dt)
     _hero->update(dt);
     Point _heroPos = _hero->getPosition();
     _hero->getheroHPBar()->setPosition(_heroPos.x - 20, _heroPos.y + 50);
+    _hero->getheroHPBarBg()->setPosition(_heroPos.x - 20, _heroPos.y + 50);
     this->updateRobots(dt);
     this->updatePositions();
     this->reorderActors();
@@ -249,7 +254,7 @@ void GameLayer::updateRobots(float dt)
                                 if (_hero->getHitbox().actual.intersectsRect(robot->getAttackBox().actual))
                                 {
                                     _hero->hurtWithDamage(robot->getDamage());
-                                    _hero->updateHP();
+                                    _hero->updateHP(_hero->getHitPoints());
                                     //end game checker here
                                     if (_hero->getActionState() == kActionStateKnockedOut && _hud->getChildByTag(5) == NULL)
                                     {

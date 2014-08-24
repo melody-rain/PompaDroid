@@ -92,9 +92,9 @@ void Hero::knockout()
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pd_herodeath.wav");
 }
 
-void Hero::updateHP()
+void Hero::updateHP(float hitPoints)
 {
-
+    heroHPBar->setPercentage(hitPoints / 100 * 100);
 }
 
 void Hero::makeHPBar()
@@ -107,4 +107,14 @@ void Hero::makeHPBar()
     heroHPBar->setPercentage(getHitPoints());
     heroHPBar->setAnchorPoint(Vec2(0, 0.5));
     heroHPBar->setScaleX(0.3);
+
+    Sprite *heroHPBarSpriteBg = Sprite::create("bloodbg.png");
+    heroHPBarBg = ProgressTimer::create(heroHPBarSpriteBg);
+    heroHPBarBg->setType(ProgressTimer::Type::BAR);
+    heroHPBarBg->setMidpoint(Vec2(0, 0));
+    heroHPBarBg->setBarChangeRate(Vec2(1, 0));
+    heroHPBarBg->setPercentage(getHitPoints());
+    heroHPBarBg->setAnchorPoint(Vec2(0, 0.5));
+    heroHPBarBg->setScaleX(0.3);
+
 }

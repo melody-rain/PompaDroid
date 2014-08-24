@@ -13,5 +13,5 @@ public:
 
     CC_SYNTHESIZE(float, _nextDecisionTime, NextDecisionTime);
 
-    void updateHP();
+    void updateHP(float hitPoints);
 };

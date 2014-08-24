@@ -22,7 +22,7 @@ public:
     void transformBoxes();
     void setPosition(cocos2d::Point position);
 
-    virtual void updateHP();
+    virtual void updateHP(float hitPoints);
     virtual void makeHPBar();
     //actions
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _idleAction, IdleAction);
