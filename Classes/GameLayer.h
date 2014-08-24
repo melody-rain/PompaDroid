@@ -39,4 +39,7 @@ public:
     void onEnter();
     void onExit();
     void onExitTransitionDidStart();
+
+    void onRobotDead(ActionSprite *pTarget);
+    void onHeroDead(ActionSprite *pTarget);
 };

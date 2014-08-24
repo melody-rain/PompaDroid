@@ -118,10 +118,41 @@ void ActionSprite::setPosition(Point position)
 
 void ActionSprite::updateHP(float hitPoints)
 {
-
+    heroHPBar->setPercentage(hitPoints / 100 * 100);
 }
 
 void ActionSprite::makeHPBar()
 {
+    Sprite *heroHPBarSprite = Sprite::create("blood.png");
+    heroHPBar = ProgressTimer::create(heroHPBarSprite);
+    heroHPBar->setType(ProgressTimer::Type::BAR);
+    heroHPBar->setMidpoint(Vec2(0, 0.5));
+    heroHPBar->setBarChangeRate(Vec2(1, 0));
+    heroHPBar->setPercentage(getHitPoints());
+    heroHPBar->setAnchorPoint(Vec2(0, 0.5));
+    heroHPBar->setScaleX(0.3);
 
+    Sprite *heroHPBarSpriteBg = Sprite::create("bloodbg.png");
+    heroHPBarBg = ProgressTimer::create(heroHPBarSpriteBg);
+    heroHPBarBg->setType(ProgressTimer::Type::BAR);
+    heroHPBarBg->setMidpoint(Vec2(0, 0));
+    heroHPBarBg->setBarChangeRate(Vec2(1, 0));
+    heroHPBarBg->setPercentage(getHitPoints());
+    heroHPBarBg->setAnchorPoint(Vec2(0, 0.5));
+    heroHPBarBg->setScaleX(0.3);
+}
+
+cocos2d::CallFunc *ActionSprite::createDeadCallbackFunc()
+{
+    return CallFunc::create(CC_CALLBACK_0(ActionSprite::onDead, this));
+}
+
+void ActionSprite::onDead()
+{
+    this->onDeadCallback();
+}
+
+void ActionSprite::removeSprite()
+{
+    _actionState = kActionStateDisapper;
 }

@@ -29,7 +29,8 @@ typedef enum _ActionState {
     kActionStateAttack,
     kActionStateWalk,
     kActionStateHurt,
-    kActionStateKnockedOut
+    kActionStateKnockedOut,
+    kActionStateDisapper
 } ActionState;
 
 // 4 - structures

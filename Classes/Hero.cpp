@@ -66,7 +66,8 @@ bool Hero::init()
             knockedOutFrames.pushBack(frame);
         }
         Animation *knockedOutAnimation = Animation::createWithSpriteFrames(knockedOutFrames, float(1.0 / 12.0));
-        this->setKnockedOutAction(Sequence::create(Animate::create(knockedOutAnimation), Blink::create(2.0, 10.0), NULL));
+        this->setKnockedOutAction(Sequence::create(Animate::create(knockedOutAnimation), Blink::create(2.0, 10.0), 
+            ActionSprite::createDeadCallbackFunc(), NULL));
 
         this->setCenterToBottom(39.0);
         this->setCenterToSides(29.0);
@@ -90,31 +91,4 @@ void Hero::knockout()
 {
     ActionSprite::knockout();
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pd_herodeath.wav");
-}
-
-void Hero::updateHP(float hitPoints)
-{
-    heroHPBar->setPercentage(hitPoints / 100 * 100);
-}
-
-void Hero::makeHPBar()
-{
-    Sprite *heroHPBarSprite = Sprite::create("blood.png");
-    heroHPBar = ProgressTimer::create(heroHPBarSprite);
-    heroHPBar->setType(ProgressTimer::Type::BAR);
-    heroHPBar->setMidpoint(Vec2(0, 0.5));
-    heroHPBar->setBarChangeRate(Vec2(1, 0));
-    heroHPBar->setPercentage(getHitPoints());
-    heroHPBar->setAnchorPoint(Vec2(0, 0.5));
-    heroHPBar->setScaleX(0.3);
-
-    Sprite *heroHPBarSpriteBg = Sprite::create("bloodbg.png");
-    heroHPBarBg = ProgressTimer::create(heroHPBarSpriteBg);
-    heroHPBarBg->setType(ProgressTimer::Type::BAR);
-    heroHPBarBg->setMidpoint(Vec2(0, 0));
-    heroHPBarBg->setBarChangeRate(Vec2(1, 0));
-    heroHPBarBg->setPercentage(getHitPoints());
-    heroHPBarBg->setAnchorPoint(Vec2(0, 0.5));
-    heroHPBarBg->setScaleX(0.3);
-
 }

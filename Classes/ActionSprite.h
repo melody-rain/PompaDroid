@@ -22,8 +22,8 @@ public:
     void transformBoxes();
     void setPosition(cocos2d::Point position);
 
-    virtual void updateHP(float hitPoints);
-    virtual void makeHPBar();
+    void updateHP(float hitPoints);
+    void makeHPBar();
     //actions
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _idleAction, IdleAction);
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _attackAction, AttackAction);
@@ -49,4 +49,13 @@ public:
 
     CC_SYNTHESIZE(BoundingBox, _hitBox, Hitbox);
     CC_SYNTHESIZE(BoundingBox, _attackBox, AttackBox);
+
+    CC_SYNTHESIZE(cocos2d::ProgressTimer*, heroHPBar, heroHPBar);
+    CC_SYNTHESIZE(cocos2d::ProgressTimer*, heroHPBarBg, heroHPBarBg);
+
+    cocos2d::CallFunc* createDeadCallbackFunc();
+    void onDead();
+    std::function<void(void)> onDeadCallback;
+
+    void removeSprite();
 };

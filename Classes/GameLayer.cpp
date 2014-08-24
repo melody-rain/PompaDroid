@@ -72,6 +72,7 @@ void GameLayer::initHero()
     _hero->setPosition(Vec2(_hero->getCenterToSides(), 80));
     _hero->setDesiredPosition(_hero->getPosition());
     _hero->idle();
+    _hero->onDeadCallback = CC_CALLBACK_0(GameLayer::onHeroDead, this, _hero);
     ProgressTimer *heroHPBar = _hero->getheroHPBar();
     Point heroPos = _hero->getPosition();
 //     Size heroSize = _hero->getContentSize();
@@ -102,6 +103,7 @@ void GameLayer::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused
                         if (_hero->getAttackBox().actual.intersectsRect(robot->getHitbox().actual))
                         {
                             robot->hurtWithDamage(_hero->getDamage());
+                            robot->updateHP(robot->getHitPoints());
                         }
                     }
                 }
@@ -157,6 +159,11 @@ void GameLayer::updatePositions()
         posY = MIN(3 * _tileMap->getTileSize().height + robot->getCenterToBottom(),
             MAX(robot->getCenterToBottom(), robot->getDesiredPosition().y));
         robot->setPosition(Vec2(posX, posY));
+
+        Point robotPos = robot->getPosition();
+        robot->getheroHPBar()->setPosition(robotPos.x - 20, robotPos.y + 50);
+        robot->getheroHPBarBg()->setPosition(robotPos.x - 20, robotPos.y + 50);
+
     }
 }
 
@@ -194,6 +201,16 @@ void GameLayer::initRobots()
         robot->setPosition(Vec2(random_range(minX, maxX), random_range(minY, maxY)));
         robot->setDesiredPosition(robot->getPosition());
         robot->idle();
+        robot->onDeadCallback = CC_CALLBACK_0(GameLayer::onRobotDead, this, robot);
+        ProgressTimer *robotHPBar = robot->getheroHPBar();
+        Point robotPos = robot->getPosition();
+        robotHPBar->setPosition(Vec2(robotPos.x - 20, robotPos.y + 50));
+
+        ProgressTimer *robotHPBarBg = robot->getheroHPBarBg();
+        robotHPBarBg->setPosition(Vec2(robotPos.x - 20, robotPos.y + 50));
+
+        addChild(robotHPBarBg);
+        addChild(robotHPBar);
     }
 }
 
@@ -213,10 +230,20 @@ void GameLayer::updateRobots(float dt)
     float distanceSQ;
     int randomChoice = 0;
     Ref *pObject = NULL;
+
+    __Array *removedRobot = __Array::create();
+
     CCARRAY_FOREACH(_robots, pObject)
     {
         Robot *robot = (Robot*)pObject;
         robot->update(dt);
+
+        if (robot->getActionState() == kActionStateDisapper)
+        {
+            removedRobot->addObject(pObject);
+            continue;
+        }
+
         if (robot->getActionState() != kActionStateKnockedOut)
         {
             //1
@@ -258,6 +285,7 @@ void GameLayer::updateRobots(float dt)
                                     //end game checker here
                                     if (_hero->getActionState() == kActionStateKnockedOut && _hud->getChildByTag(5) == NULL)
                                     {
+                                       // _actors->removeChild(_hero, true);
                                         this->endGame();
                                     }
                                 }
@@ -287,6 +315,17 @@ void GameLayer::updateRobots(float dt)
             }
         }
     }
+
+    CCARRAY_FOREACH(removedRobot, pObject)
+    {
+        Robot *robot = (Robot*)pObject;
+        _robots->removeObject(pObject);
+        robot->getheroHPBar()->removeFromParent();
+        robot->getheroHPBarBg()->removeFromParent();
+        _actors->removeChild(robot, true);
+    }
+
+    removedRobot->removeAllObjects();
 
     //end game checker here
     if (alive == 0 && _hud->getChildByTag(5) == NULL)
@@ -334,4 +373,14 @@ void GameLayer::onExit()
 void GameLayer::onExitTransitionDidStart()
 {
     log("GameLayer::onExitTransitionDidStart()");
+}
+
+void GameLayer::onRobotDead(ActionSprite *pTarget)
+{
+    pTarget->removeSprite();
+}
+
+void GameLayer::onHeroDead(ActionSprite *pTarget)
+{
+    //pTarget->removeSprite();
 }

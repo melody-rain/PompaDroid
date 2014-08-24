@@ -12,6 +12,4 @@ public:
     void knockout();
 
     CC_SYNTHESIZE(float, _nextDecisionTime, NextDecisionTime);
-
-    void updateHP(float hitPoints);
 };

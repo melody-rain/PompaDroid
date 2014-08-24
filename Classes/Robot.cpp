@@ -69,7 +69,8 @@ bool Robot::init()
             knockedOutFrames.pushBack(frame);
         }
         Animation *knockedOutAnimation = Animation::createWithSpriteFrames(knockedOutFrames, float(1.0 / 12.0));
-        this->setKnockedOutAction(Sequence::create(Animate::create(knockedOutAnimation), Blink::create(2.0, 10.0), NULL));
+        this->setKnockedOutAction(Sequence::create(Animate::create(knockedOutAnimation), Blink::create(2.0, 10.0), 
+            ActionSprite::createDeadCallbackFunc(), NULL));
 
         this->setWalkSpeed(80.0);
         this->setCenterToBottom(39.0);
@@ -82,7 +83,7 @@ bool Robot::init()
         this->setAttackBox(this->createBoundingBoxWithOrigin(Vec2(this->getCenterToSides(), -5), Size(25, 20)));
 
         _nextDecisionTime = 0;
-
+        makeHPBar();
         bRet = true;
     } while (0);
 
@@ -93,9 +94,4 @@ void Robot::knockout()
 {
     ActionSprite::knockout();
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pd_botdeath.wav");
-}
-
-void Robot::updateHP(float hitPoints)
-{
-
 }
