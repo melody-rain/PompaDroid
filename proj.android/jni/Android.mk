@@ -18,7 +18,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/Hero.cpp \
                    ../../Classes/HudLayer.cpp \
                    ../../Classes/Robot.cpp \
-                   ../../Classes/SimpleDPad.cpp
+                   ../../Classes/SimpleDPad.cpp \
+                   ../../Classes/Control.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
