@@ -140,9 +140,11 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Control.cpp" />
     <ClCompile Include="..\Classes\GameLayer.cpp" />
+    <ClCompile Include="..\Classes\GameMainMenuLayer.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="..\Classes\HudLayer.cpp" />
+    <ClCompile Include="..\Classes\LoadingLayer.cpp" />
     <ClCompile Include="..\Classes\Robot.cpp" />
     <ClCompile Include="..\Classes\SimpleDPad.cpp" />
     <ClCompile Include="main.cpp" />
@@ -153,10 +155,12 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Control.h" />
     <ClInclude Include="..\Classes\Defines.h" />
     <ClInclude Include="..\Classes\GameLayer.h" />
+    <ClInclude Include="..\Classes\GameMainMenuLayer.h" />
     <ClInclude Include="..\Classes\GameResource.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\Hero.h" />
     <ClInclude Include="..\Classes\HudLayer.h" />
+    <ClInclude Include="..\Classes\LoadingLayer.h" />
     <ClInclude Include="..\Classes\Robot.h" />
     <ClInclude Include="..\Classes\SimpleDPad.h" />
     <ClInclude Include="main.h" />

@@ -133,9 +133,6 @@ void GameLayer::simpleDPadTouchEnded(SimpleDPad *simpleDPad)
 void GameLayer::update(float dt)
 {
     _hero->update(dt);
-    Point _heroPos = _hero->getPosition();
-    _hero->getheroHPBar()->setPosition(_heroPos.x - 20, _heroPos.y + 50);
-    _hero->getheroHPBarBg()->setPosition(_heroPos.x - 20, _heroPos.y + 50);
     this->updateRobots(dt);
     this->updatePositions();
     this->reorderActors();
@@ -150,6 +147,9 @@ void GameLayer::updatePositions()
         MAX(_hero->getCenterToBottom(), _hero->getDesiredPosition().y));
     _hero->setPosition(Vec2(posX, posY));
 
+    _hero->getheroHPBar()->setPosition(posX - 20, posY + 50);
+    _hero->getheroHPBarBg()->setPosition(posX - 20, posY + 50);
+
     Ref *pObject = NULL;
     CCARRAY_FOREACH(_robots, pObject)
     {
@@ -160,10 +160,8 @@ void GameLayer::updatePositions()
             MAX(robot->getCenterToBottom(), robot->getDesiredPosition().y));
         robot->setPosition(Vec2(posX, posY));
 
-        Point robotPos = robot->getPosition();
-        robot->getheroHPBar()->setPosition(robotPos.x - 20, robotPos.y + 50);
-        robot->getheroHPBarBg()->setPosition(robotPos.x - 20, robotPos.y + 50);
-
+        robot->getheroHPBar()->setPosition(posX - 20, posY + 50);
+        robot->getheroHPBarBg()->setPosition(posX - 20, posY + 50);
     }
 }
 
@@ -178,7 +176,7 @@ void GameLayer::setViewpointCenter(Point position)
     Point actualPosition = Vec2(x, y);
 
     Point centerOfView = Vec2(winSize.width / 2, winSize.height / 2);
-    Point viewPoint = ccpSub(centerOfView, actualPosition);
+    Point viewPoint = centerOfView - actualPosition;
     this->setPosition(viewPoint);
 }
 
@@ -304,7 +302,7 @@ void GameLayer::updateRobots(float dt)
                     randomChoice = random_range(0, 2);
                     if (randomChoice == 0)
                     {
-                        Point moveDirection = ccpNormalize(ccpSub(_hero->getPosition(), robot->getPosition()));
+                        Point moveDirection = (_hero->getPosition() - robot->getPosition()).getNormalized();
                         robot->walkWithDirection(moveDirection);
                     } 
                     else
